@@ -15,6 +15,14 @@ public class CommonResult {
     @ApiModelProperty(name = "info",notes = "应答数据")
     private Object info;
 
+    public CommonResult() {
+    }
+
+    public CommonResult(RCode rCode) {
+         setRCode(rCode);
+         setInfo("");
+    }
+
     public void setRCode(RCode rcode){
         this.code = rcode.getCode();
         this.message = rcode.getText();

@@ -106,14 +106,14 @@ export default {
     this.refreshData(1);
   },
   methods: {
-      refreshData(pageNum){
+    refreshData(pageNum){
         doGet('/product/more',{type: productType, pageNum: pageNum, pageSize: 9}).then(resq =>{
           if(resq.data.code === 1000){
             this.productList = resq.data.info.productList;
             this.pageInfo = resq.data.info.pageInfo;
           }
         })
-      },
+    },
     doAdd(){
       if (this.pageInfo.pageNo >= this.pageInfo.totalPage) {
         layx.msg('已经是最后一页了.',{dialogIcon:'warn',position:['ct',800]});

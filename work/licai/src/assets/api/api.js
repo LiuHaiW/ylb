@@ -1,4 +1,5 @@
 import axios from "axios";
+import layx from "vue-layx";
 
 //封装axios
 //设置axios的默认值
@@ -23,3 +24,13 @@ export function doPost(url,obj){
         data: obj
     })
 }
+
+axios.interceptors.response.use(resp=>{
+    if(resp.data.code > 1000){
+        layx.msg(resp.data.message,{dialogIcon:'error',width:260,position:['ct',800]});
+    }
+    return resp;
+},error => {
+    console.log("应答拦截器错误："+error);
+    window.location.href="/";
+})

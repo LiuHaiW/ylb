@@ -1,6 +1,6 @@
 jdwx:
   sms:
     url: https://way.jd.com/chuangxin/dxjk
-    appkey: 65f5842ce5bb67fb991426db594410e0
+    appkey: 3680fa919b771148da626bbcbd459475
     reg-text: 【动力金融】你的注册验证码是：%s，3分钟内有效！
     login-text: 【动力金融】你的登录验证码是：%s，10分钟内有效！
