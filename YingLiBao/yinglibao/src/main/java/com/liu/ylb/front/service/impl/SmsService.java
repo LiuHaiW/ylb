@@ -82,4 +82,17 @@ public class SmsService {
     public boolean hasKey(String key){
         return stringRedisTemplate.hasKey(key);
     }
+    public boolean checkSmsCodeValid(String cmd,String phone,String code){
+        boolean check = false;
+        String key = "";
+        if(AppConsts.REG_ACTION.equalsIgnoreCase(cmd)){
+            key = RedisKey.SMS_CODE_REG + phone;
+        }else if(AppConsts.LOGIN_ACTION.equalsIgnoreCase(cmd)){
+
+        }
+        if(this.hasKey(key)){
+            check =  code.equals(stringRedisTemplate.opsForValue().get(key));
+        }
+        return check;
+    }
 }

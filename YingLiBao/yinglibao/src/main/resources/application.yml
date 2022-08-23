@@ -32,3 +32,6 @@ server:
   port: 8000
   servlet:
     context-path: /ylb
+#salt
+secret:
+  salt: 8c1ef85a2a5c4a6083491e1a3d85243a

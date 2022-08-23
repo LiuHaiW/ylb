@@ -25,14 +25,14 @@
             <p class="prompt_yan"></p>
           </div>
           <div class="alert-input-agree">
-            <i class="fa fa-square-o"></i>我已阅读并同意<a href="javascript:;" target="_blank">《动力金融网注册服务协议》</a>
+            <input type="checkbox" v-model="agree">我已阅读并同意<a href="javascript:;" target="_blank">《动力金融网注册服务协议》</a>
           </div>
           <div class="alert-input-btn">
-            <input type="submit" class="login-submit" value="注册">
+            <input type="button" class="login-submit" @click="userRegister" value="注册">
           </div>
         </form>
         <div class="login-skip">
-          已有账号？ <a href="login.html" target="_blank">登录</a>
+          已有账号？ <a href="javascript:void(0);" @click="goLink('/user/login')">登录</a>
         </div>
       </div>
 
@@ -44,8 +44,9 @@
 <script>
 import AppHeader from "@/components/AppHeader";
 import AppFooter from "@/components/AppFooter";
-import {doGet} from "@/assets/api/api";
+import {doGet, doPost} from "@/assets/api/api";
 import layx from "vue-layx";
+import md5 from 'js-md5';
 
 export default {
   name: "LoginView",
@@ -63,7 +64,8 @@ export default {
       code:'',
       codeErr:'',
       yzmText:'获取验证码',
-      leftTimeDoing:false
+      leftTimeDoing:false,
+      agree:false
     }
   },
   mounted() {
@@ -72,6 +74,12 @@ export default {
     })
   },
   methods:{
+    goLink(url, parameters) { //跳转页面
+      this.$router.push({
+        path: url,
+        query: parameters
+      })
+    },
     checkPhone(){ //检查手机号格式是否正确
       if(this.phone==='' || this.phone === null ||this.phone===undefined){
         this.phoneErr='手机号必须输入';
@@ -127,6 +135,27 @@ export default {
             layx.msg('短信发送成功，请查收',{dialogIcon:'success',position:['ct',800]});
           }
         })
+      }
+    },
+    userRegister(){
+      this.checkPhone();
+      this.checkCode();
+      this.checkSecret();
+      if(this.phoneErr === '' && this.codeErr === '' && this.secretErr === ''){
+        if(this.agree){
+          let param = {phone:this.phone,secret:md5(this.secret),code:this.code};
+          doPost('/user/register',param).then(resp=>{
+            if( resp.data.code === 1000){
+              layx.msg('注册成功',{dialogIcon:'success',position:['ct',800]});
+              //跳转到登录页面
+              this.$router.push({
+                path:'/user/login'
+              })
+            }
+          })
+        }else {
+          layx.msg('请阅读注册协议',{dialogIcon:'warn',position:['ct',800]});
+        }
       }
     }
   }

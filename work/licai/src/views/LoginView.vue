@@ -4,9 +4,9 @@
     <div class="login-flex">
       <div class="login-left">
         <h3>加入动力金融网</h3>
-        <p>坐享<span>12.7%</span>历史年化收益</p>
-        <p>平台用户<span>539</span>位  </p>
-        <p>累计成交金额<span>130000</span>元</p>
+        <p>坐享<span>{{ averageRate }}%</span>历史年化收益</p>
+        <p>平台用户<span>{{ registerUsers }}</span>位  </p>
+        <p>累计成交金额<span>{{allBidMoney}}</span>元</p>
       </div>
       <!---->
       <div class="login-box">
@@ -40,7 +40,7 @@
 <script>
 import AppHeader from "@/components/AppHeader";
 import AppFooter from "@/components/AppFooter";
-//import {doGet} from "@/assets/api/api";
+import {doGet} from "@/assets/api/api";
 //import layx from "vue-layx";
 
 export default {
@@ -48,6 +48,22 @@ export default {
   components: {
     AppHeader,
     AppFooter
+  },
+  data(){
+    return{
+      registerUsers: 0,
+      allBidMoney: 0,
+      averageRate: 0.0
+    }
+  },
+  mounted() {
+    doGet('/application/info').then(resp => {
+      if (resp.data.code === 1000) {
+        this.registerUsers = resp.data.info.registerUsers;
+        this.allBidMoney = resp.data.info.allBidMoney;
+        this.averageRate = resp.data.info.averageRate;
+      }
+    })
   }
 }
 </script>
