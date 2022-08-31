@@ -24,10 +24,25 @@ export function doPost(url,obj){
         data: obj
     })
 }
+axios.interceptors.request.use(config=>{
+    let userInfo  = window.localStorage.getItem("local:userinfo");
+    if( userInfo ){
+        config.headers['Authorization']='Bearer '+ JSON.parse(userInfo).token;
+        config.headers['uid']=JSON.parse(userInfo).id;
+    }
+    return config;
+},error => {
+    console.log("请求拦截器："+error);
+    window.location.href="/";
+})
 
 axios.interceptors.response.use(resp=>{
     if(resp.data.code > 1000){
         layx.msg(resp.data.message,{dialogIcon:'error',width:260,position:['ct',800]});
+        if(resp.data.code === 2000){
+            window.localStorage.removeItem('local:userinfo');
+            window.location.href="/user/login";
+        }
     }
     return resp;
 },error => {

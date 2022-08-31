@@ -2,6 +2,9 @@ package com.liu.ylb.db.mapper;
 
 import com.liu.ylb.db.entity.Product;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.math.BigDecimal;
 
 /**
 * @author liu
@@ -10,7 +13,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @Entity com.liu.ylb.db.entity.Product
 */
 public interface ProductMapper extends BaseMapper<Product> {
-
+    Product selectByIdForUpdate(@Param("pid") Integer pid);
+    int reduceLeftProductMoney(@Param("pid") Integer pid, @Param("bidMoney") BigDecimal bidMoney);
 }
 
 

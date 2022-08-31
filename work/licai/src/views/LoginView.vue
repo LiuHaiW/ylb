@@ -15,18 +15,18 @@
           <div class="alert-input">
             <!--<input class="form-border user-name" name="username" type="text" placeholder="您的姓名">
             <p class="prompt_name"></p>-->
-            <input type="text" class="form-border user-num" name="mobile" placeholder="请输入11位手机号">
+            <input type="text" class="form-border user-num" v-model="phone" placeholder="请输入11位手机号">
             <p class="prompt_num"></p>
-            <input type="password" placeholder="请输入登录密码" class="form-border user-pass" autocomplete name="password">
+            <input type="password" placeholder="请输入登录密码" v-model="secret" class="form-border user-pass" autocomplete name="password">
             <p class="prompt_pass"></p>
             <div class="form-yzm form-border">
-              <input class="yzm-write" type="text" placeholder="输入短信验证码">
-              <input class="yzm-send" type="text" value="获取验证码" disabled="disabled" id="yzmBtn" readonly="readonly" >
+              <input class="yzm-write" type="text" v-model="code" placeholder="输入短信验证码">
+              <input class="yzm-send" type="text" value="获取验证码" @click="sendSmsCode" id="yzmBtn" readonly="readonly" >
             </div>
             <p class="prompt_yan"></p>
           </div>
           <div class="alert-input-btn">
-            <input type="submit" class="login-submit" value="登录">
+            <input type="button" class="login-submit" @click="userLogin" value="登录">
           </div>
         </form>
 
@@ -40,8 +40,9 @@
 <script>
 import AppHeader from "@/components/AppHeader";
 import AppFooter from "@/components/AppFooter";
-import {doGet} from "@/assets/api/api";
-//import layx from "vue-layx";
+import {doGet, doPost} from "@/assets/api/api";
+import layx from "vue-layx";
+import md5 from "js-md5";
 
 export default {
   name: "LoginView",
@@ -53,7 +54,10 @@ export default {
     return{
       registerUsers: 0,
       allBidMoney: 0,
-      averageRate: 0.0
+      averageRate: 0.0,
+      phone: '13700000000',
+      secret: '111aaa',
+      code: ''
     }
   },
   mounted() {
@@ -64,6 +68,34 @@ export default {
         this.averageRate = resp.data.info.averageRate;
       }
     })
+  },
+  methods:{
+    sendSmsCode() {
+      doGet('/sms/code', {phone: this.phone, cmd: 'LOGIN'}).then(resp => {
+        if (resp.data.code === 1000) {
+          layx.msg('短信发送成功，请查收', {dialogIcon: 'success', position: ['ct', 800]});
+        }
+      })
+    },
+    userLogin(){
+      let param = {phone:this.phone,secret:md5(this.secret),code:this.code};
+      doPost('/user/login',param).then(resp =>{
+        if(resp.data.code === 1000){
+          let userInfo = resp.data.info;
+          window.localStorage.setItem("local:userinfo",JSON.stringify(userInfo));
+          let name = userInfo.name;
+          let path = '';
+          if (name === '') {
+            path = '/user/realName'
+          } else {
+            path = '/user/center'
+          }
+          this.$router.push({
+            path: path
+          });
+        }
+      })
+    }
   }
 }
 </script>

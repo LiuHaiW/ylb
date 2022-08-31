@@ -2,6 +2,10 @@ package com.liu.ylb.db.mapper;
 
 import com.liu.ylb.db.entity.Bid;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.liu.ylb.db.model.UserBid;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
 * @author liu
@@ -10,7 +14,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @Entity com.liu.ylb.db.entity.Bid
 */
 public interface BidMapper extends BaseMapper<Bid> {
-
+     List<UserBid> queryBidsByUid(@Param("uid") Integer uid, @Param("offset") Integer offset,@Param("pageSize") Integer pageSize) ;
+     List<UserBid> queryBidsByPid(@Param("pid") Integer pid,@Param("offset") Integer offset,@Param("pageSize") Integer pageSize);
 }
 
 

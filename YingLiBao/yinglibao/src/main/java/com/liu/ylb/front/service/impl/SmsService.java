@@ -39,7 +39,16 @@ public class SmsService {
                 }
             }
         }else if( AppConsts.LOGIN_ACTION.equals(cmd)){
-
+            code = RandomStringUtils.randomNumeric(4);
+            content = String.format(jdwxSmsConfig.getLoginText(),code);
+            isOk = sendSms(phone,content);
+            if(isOk){
+                key = RedisKey.SMS_CODE_LOGIN + phone;
+                vo.set(key,code,10,TimeUnit.MINUTES);
+                if(StringUtils.isNotBlank(vo.get(key))){
+                    res = true;
+                }
+            }
         }
         return res;
     }
@@ -88,7 +97,7 @@ public class SmsService {
         if(AppConsts.REG_ACTION.equalsIgnoreCase(cmd)){
             key = RedisKey.SMS_CODE_REG + phone;
         }else if(AppConsts.LOGIN_ACTION.equalsIgnoreCase(cmd)){
-
+            key = RedisKey.SMS_CODE_LOGIN + phone;
         }
         if(this.hasKey(key)){
             check =  code.equals(stringRedisTemplate.opsForValue().get(key));

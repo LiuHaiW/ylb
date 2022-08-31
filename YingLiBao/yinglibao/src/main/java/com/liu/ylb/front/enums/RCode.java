@@ -10,7 +10,21 @@ public enum RCode {
     SMS_SEND_FAIL(1006,"请重新发送验证码"),
     REQUEST_PARAM_ERR(1007,"请求参数错误"),
     SMS_CODE_ERR(1008,"无效的验证码"),
-    PHONE_EXITS(1009,"手机号已经注册过");
+    PHONE_EXITS(1009,"手机号已经注册过"),
+    TOKEN_INVALID(2000,"token无效"),
+    USER_LOGIN_FAIL(1010,"用户名或密码错误"),
+    REALNAME_DOUBLE(1011,"不能重复认证"),
+    REALNAME_PHONE_ERR(1012,"认证的手机号不正确"),
+    USER_NOT_EXISTS(1013,"用户不存在"),
+    REALNAME_API_FAIL(1014,"认证失败"),
+    INVEST_DEFAULT(1015,"请重新投资"),
+    INVEST_SUCCESS(1016,"投资成功"),
+    INVEST_MONEY_ERR(1017,"投资金额不满足要求"),
+    INVEST_PRODUCT_NOT_SELL(1018,"产品不可售卖"),
+    INVEST_RPODUCT_NOT_EXITS(1019,"理财产品不存在"),
+    INVEST_ACCOUNT_MONEY_NOT_ENOUGH(1020,"账号金额不足"),
+    INVEST_ACCOUNT_NOT_EXITS(1021,"资金账号不存在");
+
     private int code;
     private String text;
 

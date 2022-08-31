@@ -28,4 +28,15 @@
         bid_min_limit,bid_max_limit,product_status,
         product_full_time,product_desc
     </sql>
+    <update id="reduceLeftProductMoney">
+        update b_product_info
+        set left_product_money = left_product_money - #{bidMoney}
+        where id = #{pid} and (left_product_money - #{bidMoney} >= 0)
+    </update>
+    <select id="selectByIdForUpdate" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"></include>
+        from b_product_info
+        where id = #{pid}
+        for update
+    </select>
 </mapper>

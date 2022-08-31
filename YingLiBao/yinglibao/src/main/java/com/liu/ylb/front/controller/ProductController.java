@@ -1,22 +1,20 @@
 package com.liu.ylb.front.controller;
 
 import com.liu.ylb.db.entity.Product;
+import com.liu.ylb.db.model.UserBid;
 import com.liu.ylb.front.dto.AppIndexProductsDto;
+import com.liu.ylb.front.dto.ProductDetailDto;
 import com.liu.ylb.front.enums.RCode;
 import com.liu.ylb.front.service.ProductService;
-import com.liu.ylb.front.vo.CommonResult;
-import com.liu.ylb.front.vo.PageInfo;
-import com.liu.ylb.front.vo.ProductVo;
+import com.liu.ylb.front.vo.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -76,5 +74,26 @@ public class ProductController extends BaseController{
             result.setRCode(RCode.PRODUCT_TYPE_NOT_RANGE);
         }
         return result;
+    }
+    @ApiOperation(value = "产品详情")
+    @GetMapping("/detail")
+    public CommonResult selectDetail(@RequestParam Integer pid,@RequestHeader(value = "uid",required = false) Integer uid){
+        CommonResult commonResult = CommonResult.FAIL();
+        if (checkPid(pid)) {
+            ProductDetailDto productDetailDto = productService.selectDetail(pid,uid);
+            ProductVo productVo = new ProductVo(productDetailDto.getProduct());
+            List<UserBid> userBidList = productDetailDto.getUserBidList();
+            List<ProductBidVo> userBidVoList = new ArrayList<>();
+            userBidList.forEach(userBid -> userBidVoList.add(new ProductBidVo(userBid)));
+            BigDecimal countMoney = productDetailDto.getCountMoney();
+            Map<String,Object> map = new HashMap<>();
+            map.put("product",productVo);
+            map.put("userBidVoList",userBidVoList);
+            map.put("countMoney",countMoney);
+            commonResult= CommonResult.SUCC(map);
+        }else {
+            commonResult.setRCode(RCode.REQUEST_PARAM_ERR);
+        }
+        return commonResult;
     }
 }

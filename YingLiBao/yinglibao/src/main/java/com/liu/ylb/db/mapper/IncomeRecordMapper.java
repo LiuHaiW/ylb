@@ -2,6 +2,10 @@ package com.liu.ylb.db.mapper;
 
 import com.liu.ylb.db.entity.IncomeRecord;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.liu.ylb.db.model.UserIncomeRecord;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
 * @author liu
@@ -10,7 +14,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @Entity com.liu.ylb.db.entity.Income
 */
 public interface IncomeRecordMapper extends BaseMapper<IncomeRecord> {
-
+    List<UserIncomeRecord> queryIncomeRecordsByUid(@Param("uid") Integer uid, @Param("offset") Integer offset, @Param("pageSize") Integer pageSize);
 }
 
 

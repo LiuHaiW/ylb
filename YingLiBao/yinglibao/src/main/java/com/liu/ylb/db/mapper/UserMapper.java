@@ -2,6 +2,8 @@ package com.liu.ylb.db.mapper;
 
 import com.liu.ylb.db.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.liu.ylb.db.model.UserAccount;
+import org.apache.ibatis.annotations.Param;
 
 /**
 * @author liu
@@ -10,7 +12,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @Entity com.liu.ylb.db.entity.User
 */
 public interface UserMapper extends BaseMapper<User> {
-
+   UserAccount selectUserAccount(@Param("uid") Integer uid);
 }
 
 

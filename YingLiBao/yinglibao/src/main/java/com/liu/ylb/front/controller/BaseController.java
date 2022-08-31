@@ -19,4 +19,10 @@ public class BaseController {
         }
         return pageSize;
     }
+    public  boolean checkUid(Integer uid){
+        return (uid != null && uid >0) ? true :false;
+    }
+    public boolean checkPid(Integer pid){
+        return (pid != null && pid >0) ? true : false;
+    }
 }

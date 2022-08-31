@@ -2,6 +2,9 @@ package com.liu.ylb.db.mapper;
 
 import com.liu.ylb.db.entity.FinanceAccount;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.math.BigDecimal;
 
 /**
 * @author liu
@@ -10,7 +13,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @Entity com.liu.ylb.db.entity.FinanceAccount
 */
 public interface FinanceAccountMapper extends BaseMapper<FinanceAccount> {
-
+    FinanceAccount selectByUidForUpdate(@Param("uid") Integer uid);
+    int reduceAccountMoney(@Param("uid") Integer uid, @Param("bidMoney") BigDecimal bidMoney);
 }
 
 

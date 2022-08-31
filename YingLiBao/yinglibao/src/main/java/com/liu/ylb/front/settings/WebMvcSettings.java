@@ -1,15 +1,35 @@
 package com.liu.ylb.front.settings;
 
+import com.liu.ylb.front.interceptors.TokenInterceptor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import javax.annotation.Resource;
 
 /**
  *  WebMvcConfigurer 相当于springmvc配置文件
  */
 @Configuration
 public class WebMvcSettings implements WebMvcConfigurer {
+    @Resource
+    private StringRedisTemplate stringRedisTemplate;
 
+    /**
+     * 注册拦截器
+     * @param registry
+     */
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        //创建拦截器对象
+        TokenInterceptor tokenInterceptor = new TokenInterceptor(stringRedisTemplate);
+
+        //配置拦截器的拦截地址
+        String[] addPath = {"/user/realName","/user/loginUp"};
+        registry.addInterceptor(tokenInterceptor).addPathPatterns(addPath);
+    }
     /**
      * 处理全局跨域
      * @param registry

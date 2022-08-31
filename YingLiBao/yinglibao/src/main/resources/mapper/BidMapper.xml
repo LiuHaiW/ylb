@@ -12,9 +12,37 @@
             <result property="bidTime" column="bid_time" jdbcType="TIMESTAMP"/>
             <result property="bidStatus" column="bid_status" jdbcType="INTEGER"/>
     </resultMap>
-
+    <resultMap id="UserBidMap" type="com.liu.ylb.db.model.UserBid">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="productName" column="product_name" jdbcType="VARCHAR" />
+        <result property="phone" column="phone" jdbcType="VARCHAR" />
+        <result property="bidMoney" column="bid_money" jdbcType="DECIMAL"/>
+        <result property="bidTime" column="bid_time" jdbcType="TIMESTAMP"/>
+        <result property="status" column="bid_status" jdbcType="INTEGER"/>
+    </resultMap>
     <sql id="Base_Column_List">
         id,prod_id,uid,
         bid_money,bid_time,bid_status
     </sql>
+    <select id="queryBidsByUid" resultMap="UserBidMap">
+        select b.id,
+               p.product_name,
+               b.bid_money,
+               b.bid_time,
+               b.bid_status
+        from b_bid_info b JOIN b_product_info p ON b.prod_id = p.id
+        where b.uid = #{uid}
+        order by b.bid_time DESC
+        limit #{offset},#{pageSize}
+    </select>
+    <select id="queryBidsByPid" resultMap="UserBidMap">
+        select b.id,
+               u.phone,
+               b.bid_money,
+               b.bid_time
+        from b_bid_info b JOIN u_user u ON b.uid = u.id
+        where b.prod_id = #{pid}
+        order by b.bid_time DESC
+        limit #{offset},#{pageSize}
+    </select>
 </mapper>
