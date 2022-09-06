@@ -3,20 +3,12 @@
   <div class="content clearfix">
     <!--排行榜-->
     <ul class="rank-list">
-      <li>
-        <img src="@/assets/image/list-rank1.png" alt="">
-        <p class="rank-list-phone">13704213870</p>
-        <span>150000.0元</span>
-      </li>
-      <li>
-        <img src="@/assets/image/list-rank2.png" alt="">
-        <p class="rank-list-phone">13704213880</p>
-        <span>90000.0元</span>
-      </li>
-      <li>
-        <img src="@/assets/image/list-rank3.png" alt="">
-        <p class="rank-list-phone">13704213890</p>
-        <span>2000.0元</span>
+      <li v-for="(investTopVo,index) in investTopVoList" :key="index">
+        <img src="@/assets/image/list-rank1.png"  v-if="index === 0">
+        <img src="@/assets/image/list-rank2.png"  v-else-if="index === 1">
+        <img src="@/assets/image/list-rank3.png"  v-else>
+        <p class="rank-list-phone">{{ investTopVo.phone }}</p>
+        <span>{{ investTopVo.bidSumMoney }}元</span>
       </li>
     </ul>
     <!--产品列表-->
@@ -65,7 +57,7 @@
 <script>
 import AppHeader from "@/components/AppHeader";
 import AppFooter from "@/components/AppFooter";
-import {doGet} from "@/assets/api/api";
+import {doGet, doPost} from "@/assets/api/api";
 import layx from "vue-layx";
 
 let productType = -1;
@@ -93,6 +85,10 @@ export default {
         bidMinLimit: 0,
         bidMaxLimit: 0
       }],
+      investTopVoList:[{
+        phone: "",
+        bidSumMoney: 0.00
+      }],
       pageInfo: {
         pageNo: 1,
         pageSize: 9,
@@ -104,6 +100,9 @@ export default {
   mounted() {
     productType = this.$route.query.ptype;
     this.refreshData(1);
+    doPost('/invest/top').then(resp =>{
+      this.investTopVoList = resp.data.info;
+    })
   },
   methods: {
     refreshData(pageNum){

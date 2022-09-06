@@ -23,7 +23,9 @@ public enum RCode {
     INVEST_PRODUCT_NOT_SELL(1018,"产品不可售卖"),
     INVEST_RPODUCT_NOT_EXITS(1019,"理财产品不存在"),
     INVEST_ACCOUNT_MONEY_NOT_ENOUGH(1020,"账号金额不足"),
-    INVEST_ACCOUNT_NOT_EXITS(1021,"资金账号不存在");
+    INVEST_ACCOUNT_NOT_EXITS(1021,"资金账号不存在"),
+    EXCEPTION_NULLPOINT(1022,"发生异常" ),
+    EXCEPTION_DEFAULT(1023,"发生了其他异常" );
 
     private int code;
     private String text;

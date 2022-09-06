@@ -12,4 +12,6 @@ public interface UserService {
     int realName(RealNameDto realNameDto);
 
     UserAccount selectUserAccount(Integer uid);
+
+    User selectById(Integer uid);
 }

@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="kq:war">
+    <output-path>$PROJECT_DIR$/kq/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>kq</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="kq.war">
+      <element id="artifact" artifact-name="kq:war exploded" />
+    </root>
+  </artifact>
+</component>

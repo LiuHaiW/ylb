@@ -17,8 +17,8 @@
         </ul>
         <div class="user-head-money fr">
           <p>可用余额：<span>￥{{ userinfo.avaiableMoney }}元</span></p>
-          <a href="user_pay.html" target="_blank" style="color:red" class="user-head-a2">充值</a>
-          <a href="details.html" target="_blank" style="color:red"  class="user-head-a2">投资</a>
+          <a href="javascript:void(0);" @click="goLink('/user/pay')" style="color:red" class="user-head-a2">充值</a>
+          <a href="javascript:void(0);" @click="goLink('/')" style="color:red"  class="user-head-a2">投资</a>
         </div>
       </div>
 
@@ -162,6 +162,14 @@ export default {
         this.userIncomeRecordInfo = resp.data.info;
       }
     })
+  },
+  methods:{
+    goLink(url, parameters) { //调整页面
+      this.$router.push({
+        path: url,
+        query: parameters
+      })
+    }
   }
 }
 </script>

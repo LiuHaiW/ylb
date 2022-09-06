@@ -21,4 +21,17 @@ public class RechargeServiceImpl implements RechargeService {
         wrapper.eq("uid",uid).orderByDesc("recharge_time").last("limit "+offset+","+pageSize);
         return rechargeMapper.selectList(wrapper);
     }
+
+    @Override
+    public void modifyRechargeStatus(String value, Integer rechargeStatus) {
+        Recharge recharge = new Recharge();
+        recharge.setRechargeStatus(rechargeStatus);
+        rechargeMapper.update(recharge,new QueryWrapper<Recharge>().eq("recharge_no",value));
+    }
+
+    @Override
+    public int addRechargeRecord(Recharge recharge) {
+        int rows =  rechargeMapper.insert(recharge);
+        return rows;
+    }
 }

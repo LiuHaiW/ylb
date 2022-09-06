@@ -136,4 +136,9 @@ public class UserServiceImpl implements UserService {
     public UserAccount selectUserAccount(Integer uid) {
         return userMapper.selectUserAccount(uid);
     }
+
+    @Override
+    public User selectById(Integer uid) {
+        return userMapper.selectById(uid);
+    }
 }

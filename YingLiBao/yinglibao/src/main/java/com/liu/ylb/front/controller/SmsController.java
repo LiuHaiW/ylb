@@ -58,7 +58,6 @@ public class SmsController {
         }else {
             commonResult.setRCode(RCode.PHONE_FORMAT_ERR);
         }
-        System.out.println(commonResult);
         return commonResult;
     }
 }

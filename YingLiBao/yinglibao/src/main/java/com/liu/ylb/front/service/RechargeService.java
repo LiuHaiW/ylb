@@ -6,4 +6,8 @@ import java.util.List;
 
 public interface RechargeService {
     List<Recharge> queryAllByUid(Integer uid, Integer pageNo, Integer pageSize);
+
+    int addRechargeRecord(Recharge recharge);
+
+    void modifyRechargeStatus(String value, Integer rechargeStatus);
 }

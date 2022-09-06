@@ -15,6 +15,9 @@ import java.math.BigDecimal;
 public interface FinanceAccountMapper extends BaseMapper<FinanceAccount> {
     FinanceAccount selectByUidForUpdate(@Param("uid") Integer uid);
     int reduceAccountMoney(@Param("uid") Integer uid, @Param("bidMoney") BigDecimal bidMoney);
+    int updateByIncome(@Param("uid") Integer uid, @Param("bidMoney") BigDecimal bidMoney, @Param("incomeMoney") BigDecimal incomeMoney);
+
+    int updateMoneyByRecharge(@Param("uid") Integer uid, @Param("rechargeMoney") BigDecimal rechargeMoney);
 }
 
 

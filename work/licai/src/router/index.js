@@ -35,6 +35,11 @@ const routes = [
     path: '/user/center',
     name: 'UserCenterView',
     component: () => import('../views/UserCenterView.vue')
+  },
+  {
+    path: '/user/pay',
+    name: 'RechargeView',
+    component: () => import('../views/RechargeView.vue')
   }
 ]
 

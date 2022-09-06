@@ -8,9 +8,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="yinglibao" />
+        <module name="kq" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="kq" target="1.8" />
       <module name="yinglibao" target="1.8" />
     </bytecodeTargetLevel>
   </component>
